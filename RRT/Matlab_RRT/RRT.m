@@ -38,6 +38,7 @@ for iter = 1:3000
     %提示：x_near已经在树T里
     %fields = fieldnames(T.v);
     distance_near = inf ;
+    indPrev = 0;
    % size_s = length(T.v)
     for i  = 1:length(T.v)
         %key = fields(i);
@@ -48,6 +49,7 @@ for iter = 1:3000
             distance_near = distance;
             x_near_Node = T.v(i) ;
             x_near = [ T.v(i).x, T.v(i).y ];
+            indPrev = i;
         end
     end
         
@@ -91,7 +93,8 @@ for iter = 1:3000
     T.v(count).xPrev = x_near(1);
     T.v(count).yPrev = x_near(2);
     T.v(count).dist = distance_near;
-    T.v(count).indPrev = x_near_Node.indPrev + 1;
+    T.v(count).indPrev = indPrev;
+
     %Step 5:检查是否到达目标点附近 
     %提示：注意使用目标点阈值Thr，若当前节点和终点的欧式距离小于Thr，则跳出当前for循环
     x = [x_near(1), x_new(1)];
