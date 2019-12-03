@@ -1,3 +1,4 @@
-1./home/zqq/motion_planning/update_src/KINODYNAMIC PATH FINDING/hw_4/devel
-2./home/zqq/motion_planning/update_src/KINODYNAMIC PATH FINDING/hw_4/build
-3./home/zqq/motion_planning/update_src/KINODYNAMIC PATH FINDING/hw_4/src/CMakeLists.txt.user
+*.user
+.catkin_workspace
+build/
+devel/

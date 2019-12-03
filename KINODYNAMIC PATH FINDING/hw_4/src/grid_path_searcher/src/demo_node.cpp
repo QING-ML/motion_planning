@@ -148,7 +148,7 @@ void trajectoryLibrary(const Vector3d start_pt, const Vector3d start_velocity, c
                 for(int step=0 ; step<=_time_step ; step ++){
 
                     /*
-                    
+
 
 
 
@@ -159,6 +159,15 @@ void trajectoryLibrary(const Vector3d start_pt, const Vector3d start_velocity, c
 
 
                     */
+                    //work_space
+                    Vector3d Pre_pos = Position.back();
+                    Vector3d Pre_vel = Velocity.back();
+                    pos = Pre_pos + Pre_vel * delta_time;
+                    vel = Pre_vel + acc_input * delta_time;
+
+
+                    //
+
                     Position.push_back(pos);
                     Velocity.push_back(vel);
                     double coord_x = pos(0);
