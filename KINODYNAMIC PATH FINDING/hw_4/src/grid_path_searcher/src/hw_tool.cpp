@@ -103,50 +103,50 @@ double Homeworktool::OptimalBVP(Eigen::Vector3d _start_position,Eigen::Vector3d 
 
     */
     //work_space
-//    vector<Vector2d> coff_alpha;
-//    vector<Vector2d> coff_beta;
+    vector<Vector2d> coff_alpha;
+    vector<Vector2d> coff_beta;
 
     // if V_target == 0;
-//    //set alpha cofficient
-//    for(int i = 0; i <= 2; i++){
-//        coff_alpha.at(i)(0) = 12*(_start_position(i) - _target_position(i)); //triple term
-//        coff_alpha.at(i)(1) = 6*_start_velocity(i); //double term
-//    }
-//    //set beta cofficient
-//    for(int i = 0; i <= 2; i++){
-//        coff_beta.at(i)(0) = 6*(_target_position(i) - _start_position(i)); //double term
-//        coff_beta.at(i)(1) = -(4*_start_velocity(i) );//once term
-//    }
+    //set alpha cofficient
+    for(int i = 0; i <= 2; i++){
+        coff_alpha.at(i)(0) = 12*(_start_position(i) - _target_position(i)); //triple term
+        coff_alpha.at(i)(1) = 6*_start_velocity(i); //double term
+    }
+    //set beta cofficient
+    for(int i = 0; i <= 2; i++){
+        coff_beta.at(i)(0) = 6*(_target_position(i) - _start_position(i)); //double term
+        coff_beta.at(i)(1) = -(4*_start_velocity(i) );//once term
+    }
 
-//    //compute cofficient of J
-//    Vector3d coff_j_once_term; //TODO: SUM all element
-//    Vector3d coff_j_double_term;
-//    Vector3d coff_j_triple_term;
-//    for(int i = 0; i <= 2; i++){
-//        coff_j_once_term(i) = 1/3 * std::pow(coff_alpha.at(i)(1), 2) + coff_beta.at(i)(1)*coff_alpha.at(i)(1) + std::pow(coff_beta.at(i)(1), 2);
-//        coff_j_double_term(i) = 2/3 * coff_alpha.at(i)(0) * coff_alpha.at(i)(1) + coff_beta.at(i)(0) * coff_alpha.at(i)(1) + coff_alpha.at(i)(0) * coff_beta.at(i)(1) + 2 * coff_beta.at(i)(0) * coff_beta.at(i)(1);
-//        coff_j_triple_term(i) = std::pow(coff_alpha.at(i)(0), 2) + coff_beta.at(i)(0) * coff_alpha.at(i)(0) + std::pow(coff_beta.at(i)(0), 2);
-//    }
-
-//    double coff_j_once = coff_j_once_term.sum();
-//    double coff_j_double = coff_j_double_term.sum();
-//    double coff_j_triple = coff_j_triple_term.sum();
-
-
-    // V_target is free
     //compute cofficient of J
     Vector3d coff_j_once_term; //TODO: SUM all element
     Vector3d coff_j_double_term;
     Vector3d coff_j_triple_term;
     for(int i = 0; i <= 2; i++){
-        coff_j_once_term(i) = 3 * std::pow(_start_velocity(i), 2);
-        coff_j_double_term(i) = 6 * (_start_position(i) - _target_position(i)) * _start_velocity(i);
-        coff_j_triple_term(i) = 3 * std::pow((_start_position(i) - _target_position(i)), 2);
+        coff_j_once_term(i) = 1/3 * std::pow(coff_alpha.at(i)(1), 2) + coff_beta.at(i)(1)*coff_alpha.at(i)(1) + std::pow(coff_beta.at(i)(1), 2);
+        coff_j_double_term(i) = 2/3 * coff_alpha.at(i)(0) * coff_alpha.at(i)(1) + coff_beta.at(i)(0) * coff_alpha.at(i)(1) + coff_alpha.at(i)(0) * coff_beta.at(i)(1) + 2 * coff_beta.at(i)(0) * coff_beta.at(i)(1);
+        coff_j_triple_term(i) = std::pow(coff_alpha.at(i)(0), 2) + coff_beta.at(i)(0) * coff_alpha.at(i)(0) + std::pow(coff_beta.at(i)(0), 2);
     }
 
     double coff_j_once = coff_j_once_term.sum();
     double coff_j_double = coff_j_double_term.sum();
     double coff_j_triple = coff_j_triple_term.sum();
+
+
+    // V_target is free!!!
+    //compute cofficient of J
+//    Vector3d coff_j_once_term; //TODO: SUM all element
+//    Vector3d coff_j_double_term;
+//    Vector3d coff_j_triple_term;
+//    for(int i = 0; i <= 2; i++){
+//        coff_j_once_term(i) = 3 * std::pow(_start_velocity(i), 2);
+//        coff_j_double_term(i) = 6 * (_start_position(i) - _target_position(i)) * _start_velocity(i);
+//        coff_j_triple_term(i) = 3 * std::pow((_start_position(i) - _target_position(i)), 2);
+//    }
+
+//    double coff_j_once = coff_j_once_term.sum();
+//    double coff_j_double = coff_j_double_term.sum();
+//    double coff_j_triple = coff_j_triple_term.sum();
 
     // solver 4_order equation
     Matrix4d companion_matrix;
