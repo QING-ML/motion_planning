@@ -40,6 +40,8 @@ for i=0:n_seg-1
     %#####################################################
     % STEP 3: get the coefficients of i-th segment of both x-axis
     % and y-axis
+    Pxi = flipud(poly_coef_x(i*(n_order+1)+1:i*(n_order+1)+8));
+    Pyi = flipud(poly_coef_y(i*(n_order+1)+1:i*(n_order+1)+8));
     for t = 0:tstep:ts(i+1)
         X_n(k)  = polyval(Pxi, t);
         Y_n(k)  = polyval(Pyi, t);
