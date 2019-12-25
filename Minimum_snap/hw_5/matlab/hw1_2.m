@@ -39,6 +39,8 @@ for i=0:n_seg-1
     % and y-axis
     Pxi = [];
     Pyi = [];
+    Pxi = flipud(poly_coef_x(i*(n_order+1)+1:i*(n_order+1)+8));
+    Pyi = flipud(poly_coef_y(i*(n_order+1)+1:i*(n_order+1)+8));
     for t=0:tstep:ts(i+1)
         X_n(k)  = polyval(Pxi,t);
         Y_n(k)  = polyval(Pyi,t);
@@ -62,7 +64,7 @@ function poly_coef = MinimumSnapCloseformSolver(waypoints, ts, n_seg, n_order)
     %#####################################################
     % STEP 2: compute Ct
     Ct = getCt(n_seg, n_order);
-    C = Ct';
+    C = Ct.';
     R = C * inv(M)' * Q * inv(M) * Ct;
     R_cell = mat2cell(R, [n_seg+7 3*(n_seg-1)], [n_seg+7 3*(n_seg-1)]);
     R_pp = R_cell{2, 2};
@@ -74,7 +76,13 @@ function poly_coef = MinimumSnapCloseformSolver(waypoints, ts, n_seg, n_order)
     %
     %
     %
-
+    dF_position = [];
+    for  i = 1:size(waypoints,1) - 2
+        dF_position(i) =  waypoints(i + 1);
+    end
+    dFt = [];
+    dFt = [start_cond, dF_position, end_cond];
+    dF = dFt.';
     dP = -inv(R_pp) * R_fp' * dF;
     poly_coef = inv(M) * Ct * [dF;dP];
 end
