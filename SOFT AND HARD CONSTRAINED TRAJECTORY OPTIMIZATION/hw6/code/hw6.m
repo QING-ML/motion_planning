@@ -47,13 +47,27 @@ for k = 1:n_seg
         for i = 0:n_order
             basis_p = nchoosek(n_order, i) * t^i * (1-t)^(n_order-i);
 %             x_pos(idx) = 
+                x_pos(idx) = x_pos(idx) + basis_p * poly_coef_x((k-1)*(n_order+1)+i+1);
 %             y_pos(idx) = 
+                y_pos(idx) = y_pos(idx) + basis_p * poly_coef_y((k-1)*(n_order+1)+i+1);
         end
+        
         idx = idx + 1;
     end
+    
 end
 % scatter(...);
+scatter(poly_coef_x(1:8,1), poly_coef_y(1:8,1),20,'b', 'filled'); 
+scatter(poly_coef_x(9:16,1), poly_coef_y(9:16,1),20,'m', 'filled'); 
+scatter(poly_coef_x(17:24,1), poly_coef_y(17:24,1),20,'g', 'filled'); 
+scatter(poly_coef_x(25:32,1), poly_coef_y(25:32,1),20,'k', 'filled'); 
+scatter(poly_coef_x(33:40,1), poly_coef_y(33:40,1),20,'c', 'filled'); 
 % plot(...);
+plot(x_pos(1:100),y_pos(1:100), 'b', 'LineWidth', 1);
+plot(x_pos(101:200),y_pos(101:200), 'm', 'LineWidth', 1);
+plot(x_pos(201:300),y_pos(201:300), 'g', 'LineWidth', 1);
+plot(x_pos(301:400),y_pos(301:400), 'k', 'LineWidth', 1);
+plot(x_pos(401:500),y_pos(401:500), 'c', 'LineWidth', 1);
 
 function poly_coef = MinimumSnapCorridorBezierSolver(axis, waypoints, corridor, ts, n_seg, n_order, v_max, a_max)
     start_cond = [waypoints(1), 0, 0];
@@ -68,7 +82,7 @@ function poly_coef = MinimumSnapCorridorBezierSolver(axis, waypoints, corridor, 
     %% #####################################################
     % STEP 2: get Aeq and beq
     [Aeq, beq] = getAbeq(n_seg, n_order, ts, start_cond, end_cond);
-    
+    Aeq = Aeq * M;
     %% #####################################################
     % STEP 3: get corridor_range, Aieq and bieq 
     
@@ -77,7 +91,19 @@ function poly_coef = MinimumSnapCorridorBezierSolver(axis, waypoints, corridor, 
     %                                   p2_min, p2_max;
     %                                   ...,
     %                                   pn_min, pn_max ];
-    corridor_range = [];
+    if axis == 1
+        for i = 1:n_seg
+            corridor_range(i, 1) = corridor(1,i) - corridor(3,i) ;
+            corridor_range(i, 2) = corridor(1,i) + corridor(3,i) ;
+        end
+
+    
+    elseif axis == 2
+        for i = 1:n_seg
+            corridor_range(i, 1) = corridor(2,i) - corridor(4,i) ;
+            corridor_range(i, 2) = corridor(2,i) + corridor(4,i) ;
+        end
+    end  
     
     % STEP 3.2: get Aieq and bieq
     [Aieq, bieq] = getAbieq(n_seg, n_order, corridor_range, ts, v_max, a_max);
