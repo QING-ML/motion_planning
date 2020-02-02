@@ -78,7 +78,7 @@ def track_the_best_plan(grid,idx = 0):
             child_9 = graph[child_key_9]
             value_uk.append(child_9.g_value)
         child_key = state.next_prob_9[np.argmin(value_uk)]
-        if np.random.randint(low=0, high=9, size=1)[0] == 0:
+        if np.random.randint(low=0, high=9, size=1)[0] == 8:
             child_key = state.next_prob_9[np.random.randint(low=0, high=8, size=1)[0]]
         state = graph[child_key]
         if grid[state.px, state.py] == START:

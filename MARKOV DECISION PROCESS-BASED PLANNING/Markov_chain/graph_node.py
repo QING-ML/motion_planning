@@ -31,23 +31,19 @@ class Node:
     @staticmethod
     def generate_g_value(px, py, vx, vy):
         rand_end = FINISH_LINE[np.random.randint(low=0, high=3, size=1)[0]]
-        #eu distance
-        vec_start = np.array([px, py])
-        vec_end = np.array([rand_end[0], rand_end[1]])
-        return np.linalg.norm(vec_end - vec_start)
 
         #new distance
-        # dist_x = rand_end[0] - px
-        # dist_y = rand_end[1] - py
-        # if vx <= 0:
-        #     g_x = dist_x - 2*vx
-        # else:
-        #     g_x = dist_x / vx
-        # if vy <= 0:
-        #     g_y = dist_y - 2 * vy
-        # else:
-        #     g_y = dist_y / vy
-        # return max(g_x, g_y)
+        dist_x = rand_end[0] - px
+        dist_y = rand_end[1] - py
+        if vx <= 0:
+            g_x = dist_x - 2*vx + 1
+        else:
+            g_x = dist_x / vx
+        if vy <= 0:
+            g_y = dist_y - 2 * vy + 1
+        else:
+            g_y = dist_y / vy
+        return max(g_x, g_y)
 
 
 
