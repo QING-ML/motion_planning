@@ -26,13 +26,30 @@ class Node:
         return self.generate_key(self.px, self.py, self.vx, self.vy)
 
     def get_g_value(self):
-        return self.generate_g_value(self.px, self.py)
+        return self.generate_g_value(self.px, self.py, self.vx, self.vy)
 
     @staticmethod
-    def generate_g_value(px, py):
+    def generate_g_value(px, py, vx, vy):
+        rand_end = FINISH_LINE[np.random.randint(low=0, high=3, size=1)[0]]
+        #eu distance
         vec_start = np.array([px, py])
-        vec_end = np.array([32, 11])
+        vec_end = np.array([rand_end[0], rand_end[1]])
         return np.linalg.norm(vec_end - vec_start)
+
+        #new distance
+        # dist_x = rand_end[0] - px
+        # dist_y = rand_end[1] - py
+        # if vx <= 0:
+        #     g_x = dist_x - 2*vx
+        # else:
+        #     g_x = dist_x / vx
+        # if vy <= 0:
+        #     g_y = dist_y - 2 * vy
+        # else:
+        #     g_y = dist_y / vy
+        # return max(g_x, g_y)
+
+
 
     def connect_to_graph(self, grid):
         for u in ACTION_SPACE:
@@ -42,7 +59,7 @@ class Node:
 
     @staticmethod
     def velocity_constraints(vx, vy):
-        return np.sign(vx) * min(abs(vx), 3), np.sign(vy) * min(abs(vy), 3)#initial 4
+        return np.sign(vx) * min(abs(vx), 4), np.sign(vy) * min(abs(vy), 4)#initial 4
 
     def safety_constraints(self, px2, py2, grid):
         assert  0 <= self.px < grid.shape[0]

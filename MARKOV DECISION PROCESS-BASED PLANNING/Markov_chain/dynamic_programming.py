@@ -9,7 +9,7 @@ graph = {} #dict
 
 
 def build_up_graph(grid, save_path):
-    max_vel = 5
+    max_vel = 5 #5
 
     # velocity dimension
     vel_list = []
@@ -65,7 +65,7 @@ def check_graph(grid):
     plt.show()
 
 
-def track_the_best_plan(idx = 0):
+def track_the_best_plan(grid,idx = 0):
     start_node = Node(START_LINE[idx][0], START_LINE[idx][1], 0, 0)
     start_key = start_node.key
     state = graph[start_key]
@@ -78,7 +78,11 @@ def track_the_best_plan(idx = 0):
             child_9 = graph[child_key_9]
             value_uk.append(child_9.g_value)
         child_key = state.next_prob_9[np.argmin(value_uk)]
+        if np.random.randint(low=0, high=9, size=1)[0] == 0:
+            child_key = state.next_prob_9[np.random.randint(low=0, high=8, size=1)[0]]
         state = graph[child_key]
+        if grid[state.px, state.py] == START:
+            trajectory.clear()
         trajectory.append(state)
         print(state.px, state.py, state.vx, state.vy, state.g_value)
     return trajectory
@@ -106,39 +110,37 @@ def dynamic_programming():
     while bellman_error > 0.0001:
         itr_num += 1
         bellman_error = 0.0
-        plan = track_the_best_plan()
+        plan = track_the_best_plan(track_map)
         node_list = []
         index = 0
         for state in plan[ :: -1]:
             #Version1
-            # node_list.append(state)
-            # if state.is_goal:
-            #    state.g_value = 0
-            # else:
-            #     value_uk = []
-            #     successor = node_list[index - 1]
-            #     current_value = 0.9 * (1 + successor.g_value) + 0.1 * (1 + state.g_value)
-            #     bellman_error += np.linalg.norm(state.g_value - current_value)
-            #     state.g_value = current_value
-            # index += 1
-
-        # for key in graph.keys():
-        #     state = graph[key]
-            #version2
+            node_list.append(state)
             if state.is_goal:
-                state.g_value = 0
+               state.g_value = 0
             else:
                 value_uk = []
-                for child_idx in range(len(ACTION_SPACE)):
-                    child_key_9 = state.next_prob_9[child_idx]
-                    child_9 = graph[child_key_9]
-                    child_key_1 = state.next_prob_1[child_idx]
-                    child_1 = graph[child_key_1]
-                    expected_cost_uk = 0.9 * (1 + child_9.g_value) + 0.1 * (1 + child_1.g_value)
-                    value_uk.append(expected_cost_uk)
-                current_value = min(value_uk)
+                successor = node_list[index - 1]
+                current_value = 0.9 * (1 + successor.g_value) + 0.1 * (1 + state.g_value)
                 bellman_error += np.linalg.norm(state.g_value - current_value)
-                state.g_value = min(value_uk)
+                state.g_value = current_value
+            index += 1
+
+            #version2
+            # if state.is_goal:
+            #     state.g_value = 0
+            # else:
+            #     value_uk = []
+            #     for child_idx in range(len(ACTION_SPACE)):
+            #         child_key_9 = state.next_prob_9[child_idx]
+            #         child_9 = graph[child_key_9]
+            #         child_key_1 = state.next_prob_1[child_idx]
+            #         child_1 = graph[child_key_1]
+            #         expected_cost_uk = 0.9 * (1 + child_9.g_value) + 0.1 * (1 + child_1.g_value)
+            #         value_uk.append(expected_cost_uk)
+            #     current_value = min(value_uk)
+            #     bellman_error += np.linalg.norm(state.g_value - current_value)
+            #     state.g_value = min(value_uk)
             # end if
         # end for
         bellman_error_list.append(bellman_error)
@@ -160,5 +162,5 @@ if __name__ == '__main__':
 
     # solve
     dynamic_programming()
-    plan = track_the_best_plan()
+    plan = track_the_best_plan(track_map)
     visualize_the_best_plan(plan, track_map)
