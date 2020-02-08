@@ -30,7 +30,12 @@ class Node:
 
     @staticmethod
     def generate_g_value(px, py, vx, vy):
-        rand_end = FINISH_LINE[np.random.randint(low=0, high=3, size=1)[0]]
+        rand_end = FINISH_LINE[np.random.randint(low=0, high=2, size=1)[0]]
+
+        #eu distance
+        # vec_start = np.array([px, py])
+        # vec_end = np.array([rand_end[0], rand_end[1]])
+        # return np.linalg.norm(vec_end - vec_start)
 
         #new distance
         dist_x = rand_end[0] - px
