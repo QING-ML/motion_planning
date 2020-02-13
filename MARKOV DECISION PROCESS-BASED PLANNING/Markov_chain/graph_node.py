@@ -101,9 +101,8 @@ class Node:
 
         # success with probability of 0.9
         if not success: # 0.1 don't move
-            vx = 0
-            vy = 0
-
+            vx = self.vx + 0
+            vy = self.vy + 0
         # dynamic model
         else: #0.9 move
             vx = self.vx + ux
