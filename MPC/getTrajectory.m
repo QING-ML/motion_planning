@@ -1,15 +1,16 @@
 function [log] = getTrajectory(p_0, up_v, bott_v, up_a, bott_a, up_j, bott_j, Target_p, step_n)
 v_0 = 0;
 a_0 = 0;
+j_0 = 0;
 K = 20; %20 because w = 0.08 rad/s
 dt = 0.2;
-log = [0 p_0 v_0 a_0];
-w1 = 500;
+log = [0 p_0 v_0 a_0 j_0];
+w1 = 5;
 final_time = 0.2 * step_n;
 %w2 = 1;
 %w3 = 1;
 w4 = 1;
-w5 = 1;
+w5 = 10;
 
 %% diemension
 % J 20*1
@@ -41,7 +42,7 @@ for t = 0.2:0.2:final_time
     p_0 = p_0 + v_0 * dt + 0.5 * a_0 * dt ^ 2 + 1/6 * j * dt ^ 3;
     v_0 = v_0 + a_0 * dt + 0.5 * j * dt ^ 2;
     a_0 = a_0 + j * dt;
-    
+    j_0 = j;
     %% Log the states
-    log = [log; t p_0 v_0 a_0];
+    log = [log; t p_0 v_0 a_0 j_0];
 end

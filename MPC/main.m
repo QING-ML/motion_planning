@@ -31,4 +31,36 @@ result_px = log_x(:, 2);
 result_py = log_y(:, 2);
 result_pz = log_z(:, 2);
 
+px_v = log_x(:, 3);
+py_v = log_y(:, 3);
+pz_v = log_z(:, 3);
+
+px_a = log_x(:, 4);
+py_a = log_y(:, 4);
+pz_a = log_z(:, 4);
+
+px_j = log_x(:, 5);
+py_j = log_y(:, 5);
+pz_j = log_z(:, 5);
+
+t = log_x(:, 1);
+
+figure(1)
+title('Trajectory')
 plot3(result_px, result_py, result_pz);
+title('Trajectory')
+
+figure(2)
+plot(t, px_v, t, py_v,'--' , t, pz_v, ':');
+title('Velocity')
+legend({'y = px_v','y = py_v', 'y = pz_v'})
+
+figure(3)
+plot(t, px_a, t, py_a, t, pz_a);
+title('Acceleration')
+legend({'y = px_a','y = py_a', 'y = pz_a'})
+
+figure(4)
+plot(t, px_j, t, py_j, t, pz_j);
+title('Jerk')
+legend({'y = px_j','y = py_j', 'y = pz_j'})
