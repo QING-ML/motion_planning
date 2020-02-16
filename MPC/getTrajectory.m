@@ -10,9 +10,9 @@ final_time = 0.2 * step_n;
 %w2 = 1;
 %w3 = 1;
 w4 = 1;
-w5 = 10;
+w5 = 50;
 
-%% diemension
+%% dimension
 % J 20*1
 % T 20*20
 %target_p 1 * 20

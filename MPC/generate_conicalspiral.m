@@ -5,7 +5,6 @@ function [Px, Py, Pz] = generate_conicalspiral(K)
 a = 0.08  ;  % angle frequence
 h = 20; %heigh
 r = 10 ;% radius
-%H = 10 : 0.5 : 0
 verical = linspace(20, 0 , K);
 horizontal = linspace(8, 0, 10);
 
