@@ -1,7 +1,7 @@
 p_0 = 10;
 v_0 = 0;
 a_0 = 0;
-K = 20;
+K = 20; %20 because w = 0.02 rad/s
 dt = 0.2;
 log = [0 p_0 v_0 a_0];
 w1 = 1;
@@ -9,7 +9,7 @@ w2 = 1;
 w3 = 1;
 w4 = 1;
 
-for t = 0.2:0.2:10
+for t = 0.2:0.2:300
     %% Construct the prediction matrix
     [Tp, Tv, Ta, Bp, Bv, Ba] = getPredictionMatrix(K, dt, p_0, v_0, a_0);
     
