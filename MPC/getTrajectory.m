@@ -7,8 +7,8 @@ dt = 0.2;
 log = [0 p_0 v_0 a_0 j_0];
 w1 = 3;
 final_time = 0.2 * step_n;
-%w2 = 1;
-%w3 = 1;
+w2 = 1;
+w3 = 1;
 w4 = 70;
 w5 = 40;
 
@@ -28,7 +28,7 @@ for t = 0.2:0.2:final_time
     % Target_p_20: further 20 step target position
     Target_p_20 = Target_p(count : count + K - 1);
     %%Construct the optimization problem
-    H = blkdiag(w4*eye(K) + w1*(Tp' * Tp) , w5*eye(K));
+    H = blkdiag(w4*eye(K) + w1*(Tp' * Tp) + w2*(Tv'*Tv) + w3*(Ta'*Ta) , w5*eye(K));
     F = [2 * w1 * (Bp' * Tp - Target_p_20 * Tp ), zeros(1, K)];
     
     A = [ Tv -eye(K); -Tv -eye(K); Ta -eye(K); -Ta -eye(K); eye(K) -eye(K); -eye(K) -eye(K); zeros(size(Ta)) -eye(K)];
