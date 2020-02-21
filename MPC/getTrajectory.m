@@ -5,12 +5,12 @@ j_0 = 0;
 K = 20; %20 because w = 0.08 rad/s
 dt = 0.2;
 log = [0 p_0 v_0 a_0 j_0];
-w1 = 5;
+w1 = 3;
 final_time = 0.2 * step_n;
 %w2 = 1;
 %w3 = 1;
-w4 = 1;
-w5 = 50;
+w4 = 70;
+w5 = 40;
 
 %% dimension
 % J 20*1

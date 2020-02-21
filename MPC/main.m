@@ -1,6 +1,8 @@
 %%main
-step_n= 1500;
-conical_step = step_n + 20
+horizontal_n = 30;
+conical_step = 1500;
+step_n= horizontal_n + conical_step;
+%start position
 px_0 = 8;
 py_0 = 0;
 pz_0 = 20;
@@ -22,11 +24,12 @@ up_j_z = 2;
 bott_j_z =2; 
 
 %% main function
-[Target_px, Target_py, Target_pz] = generate_conicalspiral(conical_step);
+[Target_px, Target_py, Target_pz] = generate_conicalspiral(conical_step, horizontal_n);
 log_x = getTrajectory(px_0, up_v_xy, bott_v_xy, up_a_xy, bott_a_xy, up_j_xy, bott_j_xy, Target_px, step_n);
 log_y = getTrajectory(py_0, up_v_xy, bott_v_xy, up_a_xy, bott_a_xy, up_j_xy, bott_j_xy, Target_py, step_n);
 log_z = getTrajectory(pz_0, up_v_z, bott_v_z, up_a_z, bott_a_z, up_j_z, bott_j_z, Target_pz, step_n);
 
+%%plot
 result_px = log_x(:, 2);
 result_py = log_y(:, 2);
 result_pz = log_z(:, 2);
@@ -46,9 +49,12 @@ pz_j = log_z(:, 5);
 t = log_x(:, 1);
 
 figure(1)
+p1 = plot3(result_px, result_py, result_pz,'--', 'linewidth', 1);
+hold on
+p2 = plot3(Target_px, Target_py, Target_pz);
+hold off
 title('Trajectory')
-plot3(result_px, result_py, result_pz);
-title('Trajectory')
+legend([p1, p2],{'real trajectory', 'reference trajectory'})
 
 figure(2)
 plot(t, px_v, t, py_v,'--' , t, pz_v, ':');
